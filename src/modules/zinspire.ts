@@ -758,9 +758,9 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
         }
 
         // set journalAbbr. to the arXiv ID prior to journal publication
-        if (!metaInspire.journalAbbreviation) {
-          item.itemType == 'journalArticle' && item.setField('journalAbbreviation', arXivInfo);
-          publication.startsWith('arXiv:') && item.setField('publicationTitle', "")
+        // if (!metaInspire.journalAbbreviation) {
+        //  item.itemType == 'journalArticle' && item.setField('journalAbbreviation', arXivInfo);
+        //  publication.startsWith('arXiv:') && item.setField('publicationTitle', "")
         }
         const url = item.getField('url');
         (metaInspire.urlArxiv && !url) && item.setField('url', metaInspire.urlArxiv)
