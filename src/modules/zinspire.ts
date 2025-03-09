@@ -723,7 +723,7 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
             "SciPost Phys.": "SciPost Physics",
           };
           if (metaInspire.journalAbbreviation in journalDict) {
-            item.setField('journal', journalDict[metaInspire.journalAbbreviation]);
+            item.setField('publicationTitle', journalDict[metaInspire.journalAbbreviation]);
           };
 
         } else if (metaInspire.document_type[0] === "book" && item.itemType === "book") {
