@@ -318,10 +318,10 @@ export class ZInspire {
           item.removeTag(getPref("tag_norecid") as string);
           item.saveTx();
         }
-        // if (metaInspire.journalAbbreviation && (item.itemType === 'report' || item.itemType === 'preprint')) {
-        if (item.itemType === 'report' || item.itemType === 'preprint') {
+        if (metaInspire.journalAbbreviation && (item.itemType === 'report' || item.itemType === 'preprint')) {
+          //if (item.itemType === 'report' || item.itemType === 'preprint') {
           item.setType(Zotero.ItemTypes.getID('journalArticle') as number);
-        }
+      }
 
         if (item.itemType !== 'book' && metaInspire.document_type == 'book') item.setType(Zotero.ItemTypes.getID('book') as number);
 
