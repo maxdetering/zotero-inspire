@@ -1,7 +1,7 @@
 startup-begin = Addon is loading
 startup-finish = Addon is ready
 menuitem-label = Addon Template: Helper Examples
-menupopup-label = Update Information inspirehep
+menupopup-label = Update Information from INSPIRE
 menuitem-submenulabel0 = Metadata
 menuitem-submenulabel2 = Citation counts
 menuitem-filemenulabel = Addon Template: File Menuitem
