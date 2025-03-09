@@ -703,6 +703,29 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
       if (metaInspire.journalAbbreviation) {
         if (item.itemType === "journalArticle") { //metaInspire.document_type[0]  === "article"
           item.setField('journalAbbreviation', metaInspire.journalAbbreviation);
+          // set full journal name to journal field if abbreviation is in dictionary
+          const journalDict: { [key: string]: string } = {
+            "Ann. Rev. Nucl. Part. Sci.": "Annual Review of Nuclear and Particle Science",
+            "Commun. Math. Phys.": "Communications in Mathematical Physics",
+            "Eur. Phys. J. C": "The European Physical Journal C",
+            "Front. in Phys.": "Frontiers in Physics",
+            "J. Phys. G": "Journal of Physics G",
+            "JCAP": "Journal of Cosmology and Astrophysics",
+            "JHEP": "Journal of High Energy Physics",
+            "LHEP": "Letters in High Energy Physics",
+            "Nature Rev. Phys.": "Nature Reviews Physics",
+            "Nucl. Phys. B": "Nuclear Physics B",
+            "Phys. Lett. B": "Physics Letters B",
+            "Phys. Rept.": "Physics Reports",
+            "Phys. Rev.": "Physical Review",
+            "Phys. Rev. D": "Physical Review D",
+            "Phys. Rev. Lett.": "Physical Review Letters",
+            "SciPost Phys.": "SciPost Physics",
+          };
+          if (metaInspire.journalAbbreviation in journalDict) {
+            item.setField('journal', journalDict[metaInspire.journalAbbreviation]);
+          };
+
         } else if (metaInspire.document_type[0] === "book" && item.itemType === "book") {
           item.setField('series', metaInspire.journalAbbreviation)
         } else {
