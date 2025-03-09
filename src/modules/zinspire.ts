@@ -773,7 +773,8 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
       }
 
       // Zotero.debug('setInspire-4')
-      extra = setCitations(extra, metaInspire.citation_count, metaInspire.citation_count_wo_self_citations)
+      // removed citation updates for option "full" and "noabstract", MD 2025-03-09
+      // extra = setCitations(extra, metaInspire.citation_count, metaInspire.citation_count_wo_self_citations)
 
       // for erratum, added by FK Guo, date: 2023-08-27
       // Zotero.debug(`++++metaInspire.note: ${metaInspire.note}`)
