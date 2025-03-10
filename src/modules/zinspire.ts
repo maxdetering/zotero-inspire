@@ -746,6 +746,7 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
         const arxivId = metaInspire.arxiv.value
         const _arxivReg = new RegExp(/^.*(arXiv:|_eprint:).*$(\n|)/mgi);
         let arXivInfo = "";
+        let arxivPrimaryCategory: string;
         if (/^\d/.test(arxivId)) {
           arxivPrimaryCategory = metaInspire.arxiv.categories[0];
           arXivInfo = `arXiv:${arxivId} [${arxivPrimaryCategory}]`;
