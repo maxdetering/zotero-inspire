@@ -2,7 +2,7 @@ import { config } from "../../package.json"
 import { getString } from "../utils/locale";
 import { getPref } from "../utils/prefs";
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
-import { journalDict } from "./journals.ts";
+import { journalDict } from "./journals";
 
 export class ZInsUtils {
   static registerPrefs() {
