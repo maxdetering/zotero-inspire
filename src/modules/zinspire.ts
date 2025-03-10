@@ -744,11 +744,11 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
       // set the arXiv url, useful to use Find Available PDF for newly added arXiv papers
       if (metaInspire.arxiv) {
         const arxivId = metaInspire.arxiv.value
-        const _arxivReg = new RegExp(/^.*(arXiv:|_eprint:).*$(\n|)/mgi)
-        let arXivInfo = ""
+        const _arxivReg = new RegExp(/^.*(arXiv:|_eprint:).*$(\n|)/mgi);
+        let arXivInfo = "";
         if (/^\d/.test(arxivId)) {
-          const arxivPrimaryCategory = metaInspire.arxiv.categories[0]
-          arXivInfo = `arXiv:${arxivId} [${arxivPrimaryCategory}]`
+          arxivPrimaryCategory = metaInspire.arxiv.categories[0];
+          arXivInfo = `arXiv:${arxivId} [${arxivPrimaryCategory}]`;
         } else {
           arXivInfo = "arXiv:" + arxivId;
         }
