@@ -752,40 +752,44 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
         } else {
           arXivInfo = "arXiv:" + arxivId;
         }
-        const numberOfArxiv = (extra.match(_arxivReg) || '').length
-        // Zotero.debug(`number of arXiv lines: ${numberOfArxiv}`)
-        if (numberOfArxiv !== 1) {
-          // The arXiv.org translater could add two lines of arXiv to extra; remove one in that case
-          extra = extra.replace(_arxivReg, '')
-          // Zotero.debug(`extra w/o arxiv: ${extra}`)
-          extra.endsWith('\n') ? extra += arXivInfo : extra += '\n' + arXivInfo;
-          // Zotero.debug(`extra w/ arxiv: ${extra}`)
-        } else {
-          extra = extra.replace(/^.*(arXiv:|_eprint:).*$/mgi, arXivInfo);
-          // Zotero.debug(`extra w arxiv-2: ${extra}`)
-        }
+        
         if (splitarXivInfo_pref) {
           // store arXiv information in inspire bibtex format
+          // remove arXiv or eprint info first
+          extra = extra.replace(_arxivReg, '');
           // replace or add arXiv prefix
           const prefixregex = new RegExp(/^.*(archivePrefix:).*$/mgi);
           if (prefixregex.test(extra)) {
-            extra = extra.replace(prefixregex, '\narchivePrefix:arXiv}');
+            extra = extra.replace(prefixregex, `\narchivePrefix:arXiv`);
           } else {
             extra += '\narchivePrefix:arXiv}';
           }
           // replace or add eprint identifier
           const eprintregex = new RegExp(/^.*(eprint:).*$/mgi);
           if (eprintregex.test(extra)) {
-            extra = extra.replace(eprintregex, '\neprint:${arxivId}');
+            extra = extra.replace(eprintregex, `\neprint:${arxivId}`);
           } else {
-            extra += '\neprint:${arxivId}';
+            extra += `\neprint:${arxivId}`;
           }
           // replace or add arxiv primary category
           const categoryregex = new RegExp(/^.*(primaryClass:).*$/mgi);
           if (categoryregex.test(extra)) {
-            extra = extra.replace(categoryregex, '\nprimaryClass:${arxivPrimaryCategory}');
+            extra = extra.replace(categoryregex, `\nprimaryClass:${arxivPrimaryCategory}`);
           } else {
-            extra += '\nprimaryClass:${arxivPrimaryCategory}';
+            extra += `\nprimaryClass:${arxivPrimaryCategory}`;
+          }
+        } else {
+          const numberOfArxiv = (extra.match(_arxivReg) || '').length
+          // Zotero.debug(`number of arXiv lines: ${numberOfArxiv}`)
+          if (numberOfArxiv !== 1) {
+            // The arXiv.org translater could add two lines of arXiv to extra; remove one in that case
+            extra = extra.replace(_arxivReg, '')
+            // Zotero.debug(`extra w/o arxiv: ${extra}`)
+            extra.endsWith('\n') ? extra += arXivInfo : extra += '\n' + arXivInfo;
+            // Zotero.debug(`extra w/ arxiv: ${extra}`)
+          } else {
+            extra = extra.replace(/^.*(arXiv:|_eprint:).*$/mgi, arXivInfo);
+            // Zotero.debug(`extra w arxiv-2: ${extra}`)
           }
         }
 
