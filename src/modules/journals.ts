@@ -1,4 +1,4 @@
-const journalDict: { [key: string]: string } = {
+export const journalDict: { [key: string]: string } = {
   "Ann. Rev. Nucl. Part. Sci.": "Annual Review of Nuclear and Particle Science",
   "Commun. Math. Phys.": "Communications in Mathematical Physics",
   "Comput. Phys. Commun.": "Computer Physics Communications",
@@ -21,5 +21,5 @@ const journalDict: { [key: string]: string } = {
   "Rev. Mod. Phys.": "Reviews of Modern Physics",
   "SciPost Phys.": "SciPost Physics",
   "SciPost Phys. Proc.": "SciPost Physics Proceedings",
-  "Univserse": "Universe",
+  "Universe": "Universe",
 };
