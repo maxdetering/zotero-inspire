@@ -695,7 +695,8 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
   // const today = new Date(Date.now()).toLocaleDateString('zh-CN');
   let extra = item.getField('extra') as string;
   const publication = item.getField('publicationTitle') as string
-  const citekey_pref = getPref("citekey")
+  const citekey_pref = getPref("citekey");
+  const splitarXivInfo_pref = getPref("splitarXivInfo");
   // item.setField('archiveLocation', metaInspire);
   if (metaInspire.recid !== -1 && metaInspire.recid !== undefined) {
     if (operation === 'full' || operation === 'noabstract') {
@@ -762,6 +763,30 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
         } else {
           extra = extra.replace(/^.*(arXiv:|_eprint:).*$/mgi, arXivInfo);
           // Zotero.debug(`extra w arxiv-2: ${extra}`)
+        }
+        if (splitarXivInfo_pref) {
+          // store arXiv information in inspire bibtex format
+          // replace or add arXiv prefix
+          const prefixregex = new RegExp(/^.*(archivePrefix:).*$/mgi);
+          if (prefixregex.test(extra)) {
+            extra = extra.replace(prefixregex, '\narchivePrefix:arXiv}');
+          } else {
+            extra += '\narchivePrefix:arXiv}';
+          }
+          // replace or add eprint identifier
+          const eprintregex = new RegExp(/^.*(eprint:).*$/mgi);
+          if (eprintregex.test(extra)) {
+            extra = extra.replace(eprintregex, '\neprint:${arxivId}');
+          } else {
+            extra += '\neprint:${arxivId}';
+          }
+          // replace or add arxiv primary category
+          const categoryregex = new RegExp(/^.*(primaryClass:).*$/mgi);
+          if (categoryregex.test(extra)) {
+            extra = extra.replace(categoryregex, '\nprimaryClass:${arxivPrimaryCategory}');
+          } else {
+            extra += '\nprimaryClass:${arxivPrimaryCategory}';
+          }
         }
 
         // set journalAbbr. to the arXiv ID prior to journal publication
