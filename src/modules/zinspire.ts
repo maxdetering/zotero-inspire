@@ -2,6 +2,8 @@ import { config } from "../../package.json"
 import { getString } from "../utils/locale";
 import { getPref } from "../utils/prefs";
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
+import { journalDict } from "./journals.ts";
+
 export class ZInsUtils {
   static registerPrefs() {
     const prefOptions = {
@@ -704,31 +706,6 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
         if (item.itemType === "journalArticle") { //metaInspire.document_type[0]  === "article"
           item.setField('journalAbbreviation', metaInspire.journalAbbreviation);
           // set full journal name to journal field if abbreviation is in dictionary
-          const journalDict: { [key: string]: string } = {
-            "Ann. Rev. Nucl. Part. Sci.": "Annual Review of Nuclear and Particle Science",
-            "Commun. Math. Phys.": "Communications in Mathematical Physics",
-            "Comput. Phys. Commun.": "Computer Physics Communications",
-            "Eur. Phys. J. C": "The European Physical Journal C",
-            "Front. in Phys.": "Frontiers in Physics",
-            "Int. J. Mod. Phys. A": "International Journal of Modern Physics A",
-            "J. Phys. A": "Journal of Physics A",
-            "J. Phys. G": "Journal of Physics G",
-            "JCAP": "Journal of Cosmology and Astrophysics",
-            "JHEP": "Journal of High Energy Physics",
-            "LHEP": "Letters in High Energy Physics",
-            "Nature Rev. Phys.": "Nature Reviews Physics",
-            "Nucl. Phys. B": "Nuclear Physics B",
-            "Phys. Lett. B": "Physics Letters B",
-            "Phys. Rept.": "Physics Reports",
-            "Phys. Rev.": "Physical Review",
-            "Phys. Rev. D": "Physical Review D",
-            "Phys. Rev. Lett.": "Physical Review Letters",
-            "PoS": "Proceedings of Science",
-            "Rev. Mod. Phys.": "Reviews of Modern Physics",
-            "SciPost Phys.": "SciPost Physics",
-            "SciPost Phys. Proc.": "SciPost Physics Proceedings",
-            "Univserse": "Universe",
-          };
           if (metaInspire.journalAbbreviation in journalDict) {
             item.setField('publicationTitle', journalDict[metaInspire.journalAbbreviation]);
           };
