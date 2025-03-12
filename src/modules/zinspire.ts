@@ -754,7 +754,20 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
           arXivInfo = "arXiv:" + arxivId;
         }
         
-        if (splitarXivInfo_pref) {
+        if (arXivInfo_pref === "simple") {
+          const numberOfArxiv = (extra.match(_arxivReg) || '').length
+          // Zotero.debug(`number of arXiv lines: ${numberOfArxiv}`)
+          if (numberOfArxiv !== 1) {
+            // The arXiv.org translater could add two lines of arXiv to extra; remove one in that case
+            extra = extra.replace(_arxivReg, '')
+            // Zotero.debug(`extra w/o arxiv: ${extra}`)
+            extra.endsWith('\n') ? extra += arXivInfo : extra += '\n' + arXivInfo;
+            // Zotero.debug(`extra w/ arxiv: ${extra}`)
+          } else {
+            extra = extra.replace(/^.*(arXiv:|_eprint:).*$/mgi, arXivInfo);
+            // Zotero.debug(`extra w arxiv-2: ${extra}`)
+          }
+        } else if (arXivInfo_pref === "split") {
           // store arXiv information in inspire bibtex format
           // remove arXiv or eprint info first
           extra = extra.replace(_arxivReg, '');
@@ -779,19 +792,8 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
           } else {
             extra += `\nprimaryClass:${arxivPrimaryCategory}`;
           }
-        } else {
-          const numberOfArxiv = (extra.match(_arxivReg) || '').length
-          // Zotero.debug(`number of arXiv lines: ${numberOfArxiv}`)
-          if (numberOfArxiv !== 1) {
-            // The arXiv.org translater could add two lines of arXiv to extra; remove one in that case
-            extra = extra.replace(_arxivReg, '')
-            // Zotero.debug(`extra w/o arxiv: ${extra}`)
-            extra.endsWith('\n') ? extra += arXivInfo : extra += '\n' + arXivInfo;
-            // Zotero.debug(`extra w/ arxiv: ${extra}`)
-          } else {
-            extra = extra.replace(/^.*(arXiv:|_eprint:).*$/mgi, arXivInfo);
-            // Zotero.debug(`extra w arxiv-2: ${extra}`)
-          }
+        } else if (arXivInfo_pref === "no") {
+          pass
         }
 
         // set journalAbbr. to the arXiv ID prior to journal publication
