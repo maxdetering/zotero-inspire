@@ -1,6 +1,6 @@
 pref-meta = Fetch INSPIRE Metadata for new items
 pref-citekey = Set citekeys in Extra
-pref-splitarXivInfo = Split arXiv information in Extra
+pref-arXivInfo = arXiv information in Extra
 pref-nofound = INSPIRE Recid Not Found
 pref-enable =
     .label = Enable
