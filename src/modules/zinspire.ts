@@ -696,7 +696,7 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
   let extra = item.getField('extra') as string;
   const publication = item.getField('publicationTitle') as string
   const citekey_pref = getPref("citekey");
-  const splitarXivInfo_pref = getPref("splitarXivInfo");
+  const arXivInfo_pref = getPref("arXivInfo");
   // item.setField('archiveLocation', metaInspire);
   if (metaInspire.recid !== -1 && metaInspire.recid !== undefined) {
     if (operation === 'full' || operation === 'noabstract') {
