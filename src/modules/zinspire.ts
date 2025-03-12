@@ -793,7 +793,7 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
             extra += `\nprimaryClass:${arxivPrimaryCategory}`;
           }
         } else if (arXivInfo_pref === "no") {
-          pass
+          //pass
         }
 
         // set journalAbbr. to the arXiv ID prior to journal publication
