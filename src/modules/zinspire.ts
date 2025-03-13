@@ -697,6 +697,7 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
   const publication = item.getField('publicationTitle') as string
   const citekey_pref = getPref("citekey");
   const arXivInfo_pref = getPref("arXivInfo");
+  const arXivurl_pref = getPref("arXivURL");
   // item.setField('archiveLocation', metaInspire);
   if (metaInspire.recid !== -1 && metaInspire.recid !== undefined) {
     if (operation === 'full' || operation === 'noabstract') {
@@ -801,8 +802,11 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
         //  item.itemType == 'journalArticle' && item.setField('journalAbbreviation', arXivInfo);
         //  publication.startsWith('arXiv:') && item.setField('publicationTitle', "")
         //}
-        const url = item.getField('url');
-        (metaInspire.urlArxiv && !url) && item.setField('url', metaInspire.urlArxiv)
+        if (metaInspire.urlArxiv && (item.itemType === 'journalArticle' || item.itemType === 'preprint')) {
+          // doi is then not stored in url field, so free to use for arXiv url
+          const url = item.getField('url');
+          (!url || arXivurl_pref) && item.setField('url', metaInspire.urlArxiv)
+        }
       }
 
       extra = extra.replace(/^.*type: article.*$\n/mg, '')
