@@ -805,7 +805,9 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
         if (metaInspire.urlArxiv && (item.itemType === 'journalArticle' || item.itemType === 'preprint')) {
           // doi is then not stored in url field, so free to use for arXiv url
           const url = item.getField('url');
-          (!url || arXivurl_pref) && item.setField('url', metaInspire.urlArxiv)
+          if (arXivurl_pref) {
+            item.setField('url', metaInspire.urlArxiv);
+          }
         }
       }
 
