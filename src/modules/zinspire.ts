@@ -808,6 +808,7 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
           if (arXivurl_pref) {
             item.setField('url', metaInspire.urlArxiv);
           }
+          item.setField('url', metaInspire.urlArxiv)
         }
       }
 
