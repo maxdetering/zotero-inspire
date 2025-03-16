@@ -810,6 +810,16 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
           }
           item.setField('url', metaInspire.urlArxiv)
         }
+
+        // add arXiv categories as tags
+        if (operation === "full" && metaInspire.arxiv.categories) {
+          for (const tag of metaInspire.arxiv.categories) {
+            if (!item.hasTag(tag)) {
+              item.addTag(tag, 1);
+              item.saveTx();
+            }
+          }
+        }
       }
 
       extra = extra.replace(/^.*type: article.*$\n/mg, '')
@@ -866,16 +876,6 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
     }
     extra = extra.replace(/\n\n/mg, '\n')
     item.setField('extra', extra)
-
-    // add arXiv categories as tags
-    if (operation === "full" && metaInspire.arxiv.categories) {
-      for (const tag of metaInspire.arxiv.categories) {
-        if (!item.hasTag(tag)) {
-          item.addTag(tag, 1);
-          item.saveTx();
-        }
-      }
-    }
   }
 }
 
