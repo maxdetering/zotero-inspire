@@ -185,7 +185,7 @@ export class ZInspire {
         this.progressWindow.close();
         const icon = "chrome://zotero/skin/cross.png";
         if (this.error_norecid && !this.error_norecid_shown) {
-            //ztoolkit.log("hello");
+          //ztoolkit.log("hello");
           const progressWindowNoRecid = new ztoolkit.ProgressWindow(config.addonName, { closeOnClick: true });
           progressWindowNoRecid.changeHeadline("INSPIRE recid not found");
           if (getPref("tag_enable") && getPref("tag_norecid") !== "") {
@@ -193,7 +193,7 @@ export class ZInspire {
             progressWindowNoRecid.createLine({ icon: icon, text: "No INSPIRE recid was found for some items. These have been tagged with '" + getPref("tag_norecid") + "'." });
           } else {
             // progressWindowNoRecid.ItemProgress.setText("No INSPIRE recid was found for some items.")
-            progressWindowNoRecid.createLine({icon: icon, text: "No INSPIRE recid was found for some items."});
+            progressWindowNoRecid.createLine({ icon: icon, text: "No INSPIRE recid was found for some items." });
           }
           progressWindowNoRecid.show();
           progressWindowNoRecid.startCloseTimer(8000);
@@ -314,7 +314,10 @@ export class ZInspire {
       // await removeArxivNote(item)
 
       const metaInspire = await getInspireMeta(item, operation);
+
       // Zotero.debug(`updateItem metaInspire: ${metaInspire}`);
+
+      // check if recid found
       if (metaInspire !== -1 && metaInspire.recid !== undefined) {
         if (item.hasTag(getPref("tag_norecid") as string)) {
           item.removeTag(getPref("tag_norecid") as string);
@@ -327,6 +330,14 @@ export class ZInspire {
 
         if (item.itemType !== 'book' && metaInspire.document_type == 'book') item.setType(Zotero.ItemTypes.getID('book') as number);
 
+        // check if publication information was previously set and if new publication is available
+        if (!item.getField('journalAbbreviation') && metaInspire.journalAbbreviation) {
+          // add tag for new publication available if preference is set
+          if (getPref("newpublication") && getPref("tag_newpub") !== "") {
+            item.addTag(getPref("tag_newpub") as string, 1);
+          }
+        }
+
         await setInspireMeta(item, metaInspire, operation);
         item.saveTx();
         this.counter++;
@@ -338,7 +349,9 @@ export class ZInspire {
           item.removeTag(getPref("tag_norecid") as string);
           item.saveTx();
         }
+
         this.error_norecid = true;
+
         if (operation == "citations") {
           const crossref_count = await setCrossRefCitations(item);
           item.saveTx();
@@ -754,7 +767,7 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
         } else {
           arXivInfo = "arXiv:" + arxivId;
         }
-        
+
         if (arXivInfo_pref === "simple") {
           const numberOfArxiv = (extra.match(_arxivReg) || '').length
           // Zotero.debug(`number of arXiv lines: ${numberOfArxiv}`)

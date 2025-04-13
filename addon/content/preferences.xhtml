@@ -1,53 +1,70 @@
 <linkset>
   <html:link rel="localization" href="__addonRef__-preferences.ftl" />
 </linkset>
-<groupbox
-  onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', { window });"
-/>
-<vbox
-  id="zotero-prefpane-__addonRef__"
->
+<groupbox onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', { window });" />
+<vbox id="zotero-prefpane-__addonRef__">
   <groupbox>
-    <label><html:h2 data-l10n-id="pref-meta"></html:h2></label>
-    <radiogroup id="zotero-prefpane-__addonRef__-meta" preference="extensions.zotero.__addonRef__.meta" orient="vertical">
-        <radio data-l10n-id="meta-full" value="full" />
-        <!-- <radio data-l10n-id="meta-noabstract" value="noabstract" /> -->
-        <radio data-l10n-id="meta-citations" value="citations" />
-        <radio data-l10n-id="meta-no" value="no" />
+    <label>
+      <html:h2 data-l10n-id="pref-meta"></html:h2>
+    </label>
+    <radiogroup id="zotero-prefpane-__addonRef__-meta" preference="extensions.zotero.__addonRef__.meta"
+      orient="vertical">
+      <radio data-l10n-id="meta-full" value="full" />
+      <!-- <radio data-l10n-id="meta-noabstract" value="noabstract" /> -->
+      <radio data-l10n-id="meta-citations" value="citations" />
+      <radio data-l10n-id="meta-no" value="no" />
     </radiogroup>
-    <label><html:h2 data-l10n-id="pref-arXivInfo"></html:h2></label>
+    <label>
+      <html:h2 data-l10n-id="pref-arXivInfo"></html:h2>
+    </label>
     <radiogroup id="zotero-prefpane-__addonRef__-arXivInfo" preference="__prefsPrefix__.arXivInfo" orient="vertical">
-        <radio data-l10n-id="arXivInfo-simple" value="simple" />
-        <radio data-l10n-id="arXivInfo-split" value="split" />
-        <radio data-l10n-id="arXivInfo-no" value="no" />
+      <radio data-l10n-id="arXivInfo-simple" value="simple" />
+      <radio data-l10n-id="arXivInfo-split" value="split" />
+      <radio data-l10n-id="arXivInfo-no" value="no" />
     </radiogroup>
-    <label><html:h2 data-l10n-id="pref-arXivURL"></html:h2></label>
-    <vbox>
     <label>
-      <checkbox id="zotero-prefpane-__addonRef__-arXivURL" preference="__prefsPrefix__.arXivURL" data-l10n-id="arXivURL"/>
+      <html:h2 data-l10n-id="pref-arXivURL"></html:h2>
     </label>
+    <vbox>
+      <label>
+        <checkbox id="zotero-prefpane-__addonRef__-arXivURL" preference="__prefsPrefix__.arXivURL"
+          data-l10n-id="arXivURL" />
+      </label>
     </vbox>
-    <label><html:h2 data-l10n-id="pref-citekey"></html:h2></label>
+    <label>
+      <html:h2 data-l10n-id="pref-citekey"></html:h2>
+    </label>
     <radiogroup id="zotero-prefpane-__addonRef__-citekey" preference="__prefsPrefix__.citekey" orient="vertical">
-        <radio data-l10n-id="citekey-inspire" value="inspire" />
-        <radio data-l10n-id="citekey-no" value="no" />
+      <radio data-l10n-id="citekey-inspire" value="inspire" />
+      <radio data-l10n-id="citekey-no" value="no" />
     </radiogroup>
-    <label><html:h2 data-l10n-id="pref-nofound"></html:h2></label>
-    <vbox>
+
     <label>
-      <checkbox id="zotero-prefpane-__addonRef__-tag_enable" preference="extensions.zotero.__addonRef__.tag_enable" data-l10n-id="pref-nofound1"/>
+      <html:h2 data-l10n-id="pref-newpublication"></html:h2>
     </label>
+    <vbox>
+      <label>
+        <checkbox id="zotero-prefpane-__addonRef__-newpublication"
+          preference="extensions.zotero.__addonRef__.newpublication" data-l10n-id="pref-newpub" />
+      </label>
     </vbox>
-    <html:input
-      type="text"
-      id="zotero-prefpane-__addonRef__-tag_norecid"
-      preference="__prefsPrefix__.tag_norecid"
-    ></html:input>
+    <html:input type="text" id="zotero-prefpane-__addonRef__-tag_newpub" preference="__prefsPrefix__.tag_newpub">
+    </html:input>
+
+    <label>
+      <html:h2 data-l10n-id="pref-nofound"></html:h2>
+    </label>
+    <vbox>
+      <label>
+        <checkbox id="zotero-prefpane-__addonRef__-tag_enable" preference="extensions.zotero.__addonRef__.tag_enable"
+          data-l10n-id="pref-nofound1" />
+      </label>
+    </vbox>
+    <html:input type="text" id="zotero-prefpane-__addonRef__-tag_norecid" preference="__prefsPrefix__.tag_norecid">
+    </html:input>
   </groupbox>
 </vbox>
 <vbox>
-  <html:label
-    data-l10n-id="pref-help"
-    data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'
-  ></html:label>
+  <html:label data-l10n-id="pref-help"
+    data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'></html:label>
 </vbox>
