@@ -3,6 +3,7 @@ export const journalDict: { [key: string]: string } = {
   "Commun. Math. Phys.": "Communications in Mathematical Physics",
   "Comput. Phys. Commun.": "Computer Physics Communications",
   "Eur. Phys. J. C": "The European Physical Journal C",
+  "Fortsch. Phys.": "Fortschritte der Physik",
   "Front. in Phys.": "Frontiers in Physics",
   "Int. J. Mod. Phys. A": "International Journal of Modern Physics A",
   "J. Phys. A": "Journal of Physics A",
