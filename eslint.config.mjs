@@ -21,7 +21,6 @@ export default tseslint.config(
           message: "Use `Zotero.getActiveZoteroPane()` instead.",
           name: "ZoteroPane",
         },
-        "Zotero_Tabs",
       ],
 
       "@typescript-eslint/ban-ts-comment": [

@@ -12,7 +12,7 @@ if (!basicTool.getGlobal("Zotero")[config.addonInstance]) {
   defineGlobal("window");
   defineGlobal("document");
   defineGlobal("ZoteroPane");
-  defineGlobal("Zotero_Tabs");
+  //defineGlobal("Zotero_Tabs");
   defineGlobal("performance")
   defineGlobal("ztoolkit", () => {
     return _globalThis.addon.data.ztoolkit;
