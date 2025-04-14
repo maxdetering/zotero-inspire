@@ -16,7 +16,7 @@ async function onStartup() {
   ZInsUtils.registerPrefs();
   ZInsUtils.registerNotifier();
 
-  await onMainWindowLoad(window);
+  await onMainWindowLoad(Zotero.getMainWindow());
 }
 
 async function onMainWindowLoad(_win: Window): Promise<void> {

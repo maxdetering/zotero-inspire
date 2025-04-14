@@ -230,7 +230,7 @@ export class ZInspire {
   }
 
   updateSelectedCollection(operation: string) {
-    const collection = ZoteroPane.getSelectedCollection();
+    const collection = Zotero.getActiveZoteroPane().getSelectedCollection();
     if (collection) {
       const items = collection.getChildItems(false, false);
       this.updateItems(items, operation);
@@ -238,7 +238,7 @@ export class ZInspire {
   }
 
   updateSelectedItems(operation: string) {
-    this.updateItems(ZoteroPane.getSelectedItems(), operation);
+    this.updateItems(Zotero.getActiveZoteroPane().getSelectedItems(), operation);
   };
 
   updateItems(items0: Zotero.Item[], operation: string) {
@@ -860,11 +860,10 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
           // Zotero.debug(`=======+++++++ ${id} : ${errTag}`)
         }
         if (!errTag) {
-          const newNote = new Zotero.Item('note')
+          const newNote = new Zotero.Item('note');
           newNote.setNote(metaInspire.note);
           newNote.parentID = item.id;
           await newNote.saveTx();
-          newNote
         }
       }
 
