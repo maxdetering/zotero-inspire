@@ -391,7 +391,11 @@ async function getInspireMeta(item: Zotero.Item, operation: string) {
       */
       if (extra.match(regexArxivId)) {
         const arxiv_split = (extra.match(regexArxivId) || "   ")[2].split(' ')
-        arxiv_split[0] === '' ? doi = arxiv_split[1] : doi = arxiv_split[0]
+        if (arxiv_split[0] === '') {
+          doi = arxiv_split[1];
+        } else {
+          doi = arxiv_split[0];
+        }
       }
     } else if (/(doi|arxiv|\/literature\/)/i.test(url)) {
       // patt taken from the Citations Count plugin
@@ -497,12 +501,16 @@ async function getInspireMeta(item: Zotero.Item, operation: string) {
           let jAbbrev = ""
           jAbbrev = pubinfo_first.journal_title;
           metaInspire.journalAbbreviation = jAbbrev.replace(/\.\s|\./g, ". ");
-          pubinfo_first.journal_volume && (metaInspire.volume = pubinfo_first.journal_volume);
+          if (pubinfo_first.journal_volume) {
+            metaInspire.volume = pubinfo_first.journal_volume;
+          }
           if (pubinfo_first.artid) {
             metaInspire.pages = pubinfo_first.artid;
           } else if (pubinfo_first.page_start) {
             metaInspire.pages = pubinfo_first.page_start
-            pubinfo_first.page_end && (metaInspire.pages = metaInspire.pages + "-" + pubinfo_first.page_end)
+            if (pubinfo_first.page_end) {
+              metaInspire.pages = metaInspire.pages + "-" + pubinfo_first.page_end;
+            }
           }
           metaInspire.date = pubinfo_first.year;
           metaInspire.issue = pubinfo_first.journal_issue
@@ -522,7 +530,9 @@ async function getInspireMeta(item: Zotero.Item, operation: string) {
                 pagesErr = pubinfo_next.artid;
               } else if (pubinfo_next.page_start) {
                 pagesErr = pubinfo_next.page_start
-                pubinfo_next.page_end && (pagesErr = pagesErr + "-" + pubinfo_next.page_end)
+                if (pubinfo_next.page_end) {
+                  pagesErr = pagesErr + "-" + pubinfo_next.page_end;
+                }
               }
               errNotes[i - 1] = `Erratum: ${jAbbrev} ${pubinfo_next.journal_volume}, ${pagesErr} (${pubinfo_next.year})`
             }
@@ -579,10 +589,16 @@ async function getInspireMeta(item: Zotero.Item, operation: string) {
       metaInspire.document_type = meta['document_type']
       // there are more than one citkeys for some items. take the first one
       metaInspire.citekey = meta['texkeys'][0]
-      meta['isbns'] && (metaInspire.isbns = meta['isbns'].map((e: any) => e.value))
+      if (meta['isbns']) {
+        metaInspire.isbns = meta['isbns'].map((e: any) => e.value);
+      }
       if (meta['imprints']) {
-        meta['imprints'][0].publisher && (metaInspire.publisher = meta['imprints'][0].publisher);
-        meta['imprints'][0].date && (metaInspire.date = meta['imprints'][0].date)
+        if (meta['imprints'][0].publisher) {
+          metaInspire.publisher = meta['imprints'][0].publisher;
+        }
+        if (meta['imprints'][0].date) {
+          metaInspire.date = meta['imprints'][0].date;
+        }
       }
 
       metaInspire.title = meta['titles'][0].title
@@ -594,7 +610,9 @@ async function getInspireMeta(item: Zotero.Item, operation: string) {
       some items even do not have `authors`
       */
       const metaCol = meta['collaborations']
-      metaCol && (metaInspire.collaborations = metaCol.map((e: any) => e.value))
+      if (metaCol) {
+        metaInspire.collaborations = metaCol.map((e: any) => e.value);
+      }
 
       const metaAuthors = meta['authors']
       if (metaAuthors) {
@@ -612,7 +630,9 @@ async function getInspireMeta(item: Zotero.Item, operation: string) {
               lastName: authorName[0],
               creatorType: 'author'
             }
-            metaAuthors[j].inspire_roles && (creators[j].creatorType = metaAuthors[j].inspire_roles[0])
+            if (metaAuthors[j].inspire_roles) {
+              creators[j].creatorType = metaAuthors[j].inspire_roles[0];
+            }
           }
         }
 
@@ -733,11 +753,19 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
       }
       // to avoid setting undefined to zotero items
       if (metaInspire.volume) {
-        (metaInspire.document_type[0] == "book") ? item.setField('seriesNumber', metaInspire.volume) : item.setField('volume', metaInspire.volume);
+        if (metaInspire.document_type[0] == "book") {
+          item.setField('seriesNumber', metaInspire.volume);
+        } else {
+          item.setField('volume', metaInspire.volume);
+        }
       }
       if (metaInspire.pages && (metaInspire.document_type[0] !== "book")) item.setField('pages', metaInspire.pages);
-      metaInspire.date && item.setField('date', metaInspire.date);
-      metaInspire.issue && item.setField('issue', metaInspire.issue);
+      if (metaInspire.date) {
+        item.setField('date', metaInspire.date);
+      }
+      if (metaInspire.issue) {
+        item.setField('issue', metaInspire.issue);
+      }
       if (metaInspire.DOI) {
         // if (metaInspire.document_type[0] === "book") {
         if (item.itemType === 'journalArticle' || item.itemType === 'preprint') {
@@ -751,7 +779,9 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
       if (metaInspire.publisher && !item.getField('publisher') && (item.itemType == 'book' || item.itemType == "bookSection")) item.setField('publisher', metaInspire.publisher);
 
       /* set the title and creators if there are none */
-      !item.getField('title') && item.setField('title', metaInspire.title)
+      if (!item.getField('title')) {
+        item.setField('title', metaInspire.title);
+      }
       if (!item.getCreator(0) || !(item.getCreator(0) as _ZoteroTypes.Item.Creator).firstName) item.setCreators(metaInspire.creators)
 
       // The current arXiv.org Zotero translator put all cross-listed categories after the ID, and the primary category is not the first. Here we replace that list by only the primary one.
@@ -775,7 +805,11 @@ async function setInspireMeta(item: Zotero.Item, metaInspire: jsobject, operatio
             // The arXiv.org translater could add two lines of arXiv to extra; remove one in that case
             extra = extra.replace(_arxivReg, '')
             // Zotero.debug(`extra w/o arxiv: ${extra}`)
-            extra.endsWith('\n') ? extra += arXivInfo : extra += '\n' + arXivInfo;
+            if (extra.endsWith('\n')) {
+              extra += arXivInfo;
+            } else {
+              extra += '\n' + arXivInfo;
+            }
             // Zotero.debug(`extra w/ arxiv: ${extra}`)
           } else {
             extra = extra.replace(/^.*(arXiv:|_eprint:).*$/mgi, arXivInfo);
